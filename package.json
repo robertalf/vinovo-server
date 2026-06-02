@@ -1,0 +1,12 @@
+{
+  "name": "vinovo-pl-server",
+  "version": "1.0.0",
+  "description": "Proxy server per P.L. Vinovo — interroga ViaggiaTreno e serve orari SFM2",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
