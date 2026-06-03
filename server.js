@@ -213,5 +213,5 @@ http.createServer((req, res) => {
   aggiornaOrari();
   aggiornaRitardi();
   setInterval(aggiornaOrari,   60 * 60 * 1000); // ogni ora
-  setInterval(aggiornaRitardi, 30 * 1000);       // ogni 30s
+  setInterval(aggiornaRitardi, 20 * 1000);       // ogni 30s
 });
