@@ -63,7 +63,9 @@ let cache = {
 // ── Helper: fetch con timeout e headers browser reale
 function fetchJSON(url, timeoutMs = 10000) {
   return new Promise((resolve, reject) => {
-    const req = https.get(url, {
+    // Scegli il modulo giusto in base al protocollo
+    const lib = url.startsWith('https') ? https : http;
+    const req = lib.get(url, {
       headers: {
         'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1',
         'Accept': 'application/json, text/plain, */*',
@@ -74,7 +76,7 @@ function fetchJSON(url, timeoutMs = 10000) {
         'Connection': 'keep-alive',
       }
     }, res => {
-      // Segui redirect
+      // Segui redirect — usa il modulo giusto per http o https
       if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
         return fetchJSON(res.headers.location, timeoutMs).then(resolve).catch(reject);
       }
