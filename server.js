@@ -3,33 +3,52 @@ const http  = require('http');
 
 // ── Orari fissi RFI fallback (14 dic 2025 – 13 giu 2026)
 const ORARI_FISSI = [
-  // ══ ORARI UFFICIALI PDF sfmtorino.it (14 dic 2025 – 13 giu 2026) ══
-  // Dir CHIVASSO — ref = partenza Candiolo, PL = ref+2min
-  {n:'26200',dir:'Chivasso',ref:'05:42'},{n:'26204',dir:'Chivasso',ref:'06:42'},
-  {n:'26302',dir:'Chivasso',ref:'07:15'},{n:'26206',dir:'Chivasso',ref:'07:42'},
-  {n:'26304',dir:'Chivasso',ref:'08:15'},{n:'26208',dir:'Chivasso',ref:'08:42'},
-  {n:'26308',dir:'Chivasso',ref:'09:15'},{n:'26210',dir:'Chivasso',ref:'09:42'},
-  {n:'26212',dir:'Chivasso',ref:'10:42'},{n:'26214',dir:'Chivasso',ref:'11:42'},
-  {n:'26216',dir:'Chivasso',ref:'12:42'},{n:'26218',dir:'Chivasso',ref:'13:42'},
-  {n:'26312',dir:'Chivasso',ref:'14:15'},{n:'26220',dir:'Chivasso',ref:'14:42'},
-  {n:'26222',dir:'Chivasso',ref:'15:42'},{n:'26224',dir:'Chivasso',ref:'16:42'},
-  {n:'26226',dir:'Chivasso',ref:'17:42'},{n:'26314',dir:'Chivasso',ref:'18:15'},
-  {n:'26228',dir:'Chivasso',ref:'18:42'},{n:'26316',dir:'Chivasso',ref:'19:15'},
-  {n:'26230',dir:'Chivasso',ref:'19:42'},{n:'26232',dir:'Chivasso',ref:'20:42'},
+  {n:'26200',dir:'Chivasso',ref:'05:42'},
+  {n:'26204',dir:'Chivasso',ref:'06:42'},
+  {n:'26302',dir:'Chivasso',ref:'07:15'},
+  {n:'26206',dir:'Chivasso',ref:'07:42'},
+  {n:'26304',dir:'Chivasso',ref:'08:15'},
+  {n:'26208',dir:'Chivasso',ref:'08:42'},
+  {n:'26308',dir:'Chivasso',ref:'09:15'},
+  {n:'26210',dir:'Chivasso',ref:'09:42'},
+  {n:'26212',dir:'Chivasso',ref:'10:42'},
+  {n:'26214',dir:'Chivasso',ref:'11:42'},
+  {n:'26216',dir:'Chivasso',ref:'12:42'},
+  {n:'26218',dir:'Chivasso',ref:'13:42'},
+  {n:'26312',dir:'Chivasso',ref:'14:15'},
+  {n:'26220',dir:'Chivasso',ref:'14:42'},
+  {n:'26222',dir:'Chivasso',ref:'15:42'},
+  {n:'26224',dir:'Chivasso',ref:'16:42'},
+  {n:'26226',dir:'Chivasso',ref:'17:42'},
+  {n:'26314',dir:'Chivasso',ref:'18:15'},
+  {n:'26228',dir:'Chivasso',ref:'18:42'},
+  {n:'26316',dir:'Chivasso',ref:'19:15'},
+  {n:'26230',dir:'Chivasso',ref:'19:42'},
+  {n:'26232',dir:'Chivasso',ref:'20:42'},
   {n:'26234',dir:'Chivasso',ref:'21:42'},
-  // Dir PINEROLO — ref = passaggio Nichelino, PL = ref+2min
-  {n:'26252',dir:'Pinerolo',ref:'06:03'},{n:'26320',dir:'Pinerolo',ref:'06:34'},
-  {n:'26254',dir:'Pinerolo',ref:'07:09'},{n:'26322',dir:'Pinerolo',ref:'07:34'},
-  {n:'26256',dir:'Pinerolo',ref:'08:09'},{n:'26324',dir:'Pinerolo',ref:'08:34'},
-  {n:'26258',dir:'Pinerolo',ref:'09:09'},{n:'26260',dir:'Pinerolo',ref:'10:09'},
-  {n:'26262',dir:'Pinerolo',ref:'11:09'},{n:'26264',dir:'Pinerolo',ref:'12:09'},
-  {n:'26266',dir:'Pinerolo',ref:'13:09'},{n:'26330',dir:'Pinerolo',ref:'13:34'},
-  {n:'26268',dir:'Pinerolo',ref:'14:09'},{n:'26270',dir:'Pinerolo',ref:'15:09'},
-  {n:'26272',dir:'Pinerolo',ref:'16:09'},{n:'26274',dir:'Pinerolo',ref:'17:09'},
-  {n:'26336',dir:'Pinerolo',ref:'17:34'},{n:'26276',dir:'Pinerolo',ref:'18:09'},
-  {n:'26338',dir:'Pinerolo',ref:'18:34'},{n:'26278',dir:'Pinerolo',ref:'19:09'},
-  {n:'26280',dir:'Pinerolo',ref:'20:09'},{n:'26282',dir:'Pinerolo',ref:'21:09'},
-  {n:'26294',dir:'Pinerolo',ref:'22:09'},
+  {n:'26252',dir:'Pinerolo',ref:'06:04'},
+  {n:'26320',dir:'Pinerolo',ref:'06:39'},
+  {n:'26254',dir:'Pinerolo',ref:'07:10'},
+  {n:'26322',dir:'Pinerolo',ref:'07:39'},
+  {n:'26256',dir:'Pinerolo',ref:'08:10'},
+  {n:'26324',dir:'Pinerolo',ref:'08:39'},
+  {n:'26258',dir:'Pinerolo',ref:'09:10'},
+  {n:'26260',dir:'Pinerolo',ref:'10:10'},
+  {n:'26262',dir:'Pinerolo',ref:'11:10'},
+  {n:'26264',dir:'Pinerolo',ref:'12:10'},
+  {n:'26266',dir:'Pinerolo',ref:'13:10'},
+  {n:'26330',dir:'Pinerolo',ref:'13:39'},
+  {n:'26268',dir:'Pinerolo',ref:'14:10'},
+  {n:'26270',dir:'Pinerolo',ref:'15:10'},
+  {n:'26272',dir:'Pinerolo',ref:'16:10'},
+  {n:'26274',dir:'Pinerolo',ref:'17:10'},
+  {n:'26336',dir:'Pinerolo',ref:'17:39'},
+  {n:'26276',dir:'Pinerolo',ref:'18:10'},
+  {n:'26338',dir:'Pinerolo',ref:'18:39'},
+  {n:'26278',dir:'Pinerolo',ref:'19:10'},
+  {n:'26280',dir:'Pinerolo',ref:'20:10'},
+  {n:'26282',dir:'Pinerolo',ref:'21:10'},
+  {n:'26294',dir:'Pinerolo',ref:'22:10'},
 ];
 
 // ── Cache in memoria
@@ -91,24 +110,38 @@ function tsOra() {
 
 // ── Aggiorna ritardi (ogni 30s)
 async function aggiornaRitardi() {
-  const url = `https://www.viaggiatreno.it/infomobilita/resteasy/viaggiatreno/partenze/S04203/${encodeURIComponent(tsOra())}`;
-  try {
-    const data = await fetchJSON(url);
-    const nuovi = {};
-    let n = 0;
-    (data || []).forEach(t => {
-      if (t.numeroTreno != null && t.ritardo != null) {
-        nuovi[String(t.numeroTreno)] = t.ritardo;
-        n++;
-      }
-    });
-    if (n > 0) {
-      cache.ritardi = nuovi;
-      cache.ritardiAggiornati = new Date().toISOString();
-      console.log(`[${new Date().toISOString()}] Ritardi OK: ${n} treni`);
+  // Interroga più stazioni per catturare tutti i treni SFM2
+  // S04203 = Candiolo (dir Chivasso)
+  // S00612 = Nichelino (dir Pinerolo)
+  // S00219 = Torino Porta Susa (cattura tutti i treni in transito)
+  const stazioni = ['S04203', 'S00612', 'S00219'];
+  const ts = tsOra();
+  const nuovi = {};
+  let totale = 0;
+
+  for (const staz of stazioni) {
+    try {
+      const url = `https://www.viaggiatreno.it/infomobilita/resteasy/viaggiatreno/partenze/${staz}/${encodeURIComponent(ts)}`;
+      const data = await fetchJSON(url);
+      (data || []).forEach(t => {
+        if (t.numeroTreno != null && t.ritardo != null) {
+          // Prendi il ritardo maggiore se lo stesso treno appare in più stazioni
+          const num = String(t.numeroTreno);
+          if (!nuovi[num] || t.ritardo > nuovi[num]) {
+            nuovi[num] = t.ritardo;
+            totale++;
+          }
+        }
+      });
+    } catch (err) {
+      console.warn(`[${new Date().toISOString()}] Ritardi stazione ${staz}: ${err.message}`);
     }
-  } catch (err) {
-    console.warn(`[${new Date().toISOString()}] Ritardi: ${err.message}`);
+  }
+
+  if (Object.keys(nuovi).length > 0) {
+    cache.ritardi = nuovi;
+    cache.ritardiAggiornati = new Date().toISOString();
+    console.log(`[${new Date().toISOString()}] Ritardi OK: ${Object.keys(nuovi).length} treni da ${stazioni.length} stazioni`);
   }
 }
 
