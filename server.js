@@ -60,13 +60,18 @@ let cache = {
   ritardiAggiornati: null,
 };
 
-// ── Helper: fetch con timeout e User-Agent
+// ── Helper: fetch con timeout e headers browser reale
 function fetchJSON(url, timeoutMs = 10000) {
   return new Promise((resolve, reject) => {
     const req = https.get(url, {
       headers: {
-        'User-Agent': 'Mozilla/5.0 (compatible; VinopoPL/1.0)',
+        'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1',
         'Accept': 'application/json, text/plain, */*',
+        'Accept-Language': 'it-IT,it;q=0.9,en;q=0.8',
+        'Accept-Encoding': 'gzip, deflate, br',
+        'Referer': 'https://www.viaggiatreno.it/',
+        'Origin': 'https://www.viaggiatreno.it',
+        'Connection': 'keep-alive',
       }
     }, res => {
       // Segui redirect
@@ -76,12 +81,18 @@ function fetchJSON(url, timeoutMs = 10000) {
       if (res.statusCode !== 200) {
         return reject(new Error(`HTTP ${res.statusCode}`));
       }
+      // Gestisci gzip
+      let stream = res;
+      if (res.headers['content-encoding'] === 'gzip') {
+        const zlib = require('zlib');
+        stream = res.pipe(zlib.createGunzip());
+      }
       let data = '';
-      res.on('data', chunk => data += chunk);
-      res.on('end', () => {
+      stream.on('data', chunk => data += chunk);
+      stream.on('end', () => {
         const trimmed = data.trim();
         if (!trimmed.startsWith('[') && !trimmed.startsWith('{')) {
-          return reject(new Error('Non JSON response'));
+          return reject(new Error('Non JSON: ' + trimmed.slice(0, 80)));
         }
         try { resolve(JSON.parse(trimmed)); }
         catch(e) { reject(new Error('JSON parse: ' + e.message)); }
